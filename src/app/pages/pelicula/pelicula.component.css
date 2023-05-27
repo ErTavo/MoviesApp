@@ -1,0 +1,51 @@
+.youtube-thumbnail {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.youtube-thumbnail img {
+  width: 540px;
+  height: 335px;
+}
+
+.youtube-thumbnail .play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 120px;
+  background-image: url('https://www.gstatic.com/youtube/img/branding/youtubelogo/svg/youtubelogo.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 70%;
+}
+
+.carousel .youtube-thumbnail {
+  width: 240px;
+  height: 135px;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.carousel .youtube-thumbnail img {
+  width: 100%;
+  height: 100%;
+}
+
+.carousel .youtube-thumbnail .play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  background-image: url('https://www.gstatic.com/youtube/img/branding/youtubelogo/svg/youtubelogo.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50%;
+}
+p{
+  color: white;
+}

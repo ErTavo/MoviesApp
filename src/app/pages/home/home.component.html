@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<div class="app">
+    <h1>Cartelera</h1>
+
+
+    <div class="search">
+        <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
+
+            <input type="text" placeholder="Buscar Película" formControlName="buscar" /> <button style="border:1px solid rgb(51, 1, 1); background-color: transparent;"><img src="../../../assets/search.svg" alt="search"></button>
+
+
+            <br>
+            <div class="col-5">
+
+            </div>
+
+
+        </form>
+    </div>
+
+    <app-peliculas-poster-grid *ngIf="movies.length > 0" [movies]="movies">
+    </app-peliculas-poster-grid>

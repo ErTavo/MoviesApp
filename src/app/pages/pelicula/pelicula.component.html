@@ -1,0 +1,37 @@
+<h1>DETALLE DE PELICULA</h1>
+<div class="container">
+    <div class="row">
+        <div class="card" style="width: 18rem;">
+
+            <div class="card-body">
+                <p><img src="movie.poster_path"></p>
+                <h5 class="card-title">{{movie?.title}}</h5>
+                <p class="card-text">{{movie?.overview}}</p>
+                <p class="card-text">{{movie?.tagline}}</p>
+
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<br>
+<h1>Videos relacionados:</h1>
+
+<carousel>
+  <slide *ngFor="let video of videosRelacionados">
+    <p>{{ video.name }}</p>
+    <div class="youtube-thumbnail" (click)="abrirVideo(video.key)">
+      <img [src]="generateYoutubeThumbnailUrl(video.key)" alt="Miniatura de video de YouTube" />
+      <span class="play-icon"></span>
+    </div>
+
+  </slide>
+</carousel>
+
+<h1>Peliculas similares:</h1>
+
+
+<app-peliculas-poster-grid *ngIf="movies.length > 0" [movies]="movies">
+</app-peliculas-poster-grid>

@@ -1,0 +1,28 @@
+<p>components works!</p>
+<p>home works!</p>
+<table>
+    <!-- <td><img src="{{Imagen.url}}" alt="" width="280" height="220"></td>
+    <td>
+        <h1>
+            <font face="Comic Sans MS,arial">{{artista.name}}
+            </font>
+        </h1>
+    </td>
+-->
+    <thead>
+       
+    </thead>
+
+    <tbody>
+        <ng-container>
+            <tr *ngFor="let movie of movies">
+                <td>{{movie.id}}</td>
+                <td><img [src]=movie.poster_path | poster alt="Poster"></td>
+                <td align="center">
+                    <h3>{{movie.original_title}}</h3>
+                </td>
+                <!--    <td><audio src="{{movies.preview_url}}" controls></audio> </td>-->
+            </tr>
+        </ng-container>
+    </tbody>
+</table>
