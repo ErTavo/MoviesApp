@@ -13,6 +13,8 @@ import { PosterPipe } from './pipes/poster.pipe';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { NguCarouselModule } from '@ngu/carousel';
+
 
 @NgModule({
   declarations: [
@@ -23,7 +25,7 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
     PeliculasPosterGridComponent,
     PosterPipe,
     CastSlideshowComponent,
-    NavbarComponent
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,7 +33,8 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
     CarouselModule.forRoot(),
     NgbModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NguCarouselModule
   ],
   providers: [],
   bootstrap: [AppComponent]

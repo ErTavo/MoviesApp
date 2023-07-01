@@ -3,7 +3,9 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+
     "MoviesApp": {
+
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -28,7 +30,7 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": ["node_modules/hammerjs/hammer.min.js"]
           },
           "configurations": {
             "production": {
@@ -90,7 +92,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": ["node_modules/hammerjs/hammer.min.js"]
           }
         }
       }

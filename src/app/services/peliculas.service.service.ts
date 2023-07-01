@@ -78,6 +78,13 @@ getSimilar(id:string){
     catchError(error => of(null))
   )}
 
+  getImagenes(id:string){
+    return this.http.get<MovieResponse>(`https://api.themoviedb.org/3/movie/${ id }/images`,{
+      params: this.params
+    }).pipe(
+      catchError(() => of(null))
+    )}
+
 getCast(id:string):Observable<Cast[]>{
   return this.http.get<CreditsReponse>(`${this.baseUrl}/movie/${ id }/credits`,{
     params: this.params
