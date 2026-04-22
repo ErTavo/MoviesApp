@@ -1,11 +1,37 @@
-<div class="cast-scroll">
-  <div class="cast-card" *ngFor="let actor of cast | slice:0:20">
-    <div class="actor-img-wrapper">
-      <img [src]="actor.profile_path | poster" [alt]="actor.name" class="actor-img">
-    </div>
-    <div class="actor-info">
-      <p class="actor-name">{{ actor.name }}</p>
-      <p class="actor-character">{{ actor.character }}</p>
+<div class="carousel-wrapper">
+
+  <button class="nav-btn prev-btn"
+          (click)="prev()"
+          [disabled]="currentPage === 0"
+          aria-label="Anterior">
+    &#8249;
+  </button>
+
+  <div class="cast-grid">
+    <div class="cast-card" *ngFor="let actor of visibleCast">
+      <div class="actor-img-wrapper">
+        <img [src]="actor.profile_path | poster" [alt]="actor.name" class="actor-img">
+      </div>
+      <div class="actor-info">
+        <p class="actor-name">{{ actor.name }}</p>
+        <p class="actor-character">{{ actor.character }}</p>
+      </div>
     </div>
   </div>
+
+  <button class="nav-btn next-btn"
+          (click)="next()"
+          [disabled]="currentPage >= totalPages - 1"
+          aria-label="Siguiente">
+    &#8250;
+  </button>
+
+</div>
+
+<div class="page-indicator" *ngIf="totalPages > 1">
+  <span class="dot"
+        *ngFor="let p of [].constructor(totalPages); let i = index"
+        [class.active]="i === currentPage"
+        (click)="currentPage = i">
+  </span>
 </div>
