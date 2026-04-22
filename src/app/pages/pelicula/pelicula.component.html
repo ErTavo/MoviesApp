@@ -1,51 +1,155 @@
-<h1>DETALLE DE PELICULA</h1>
-<div class="container">
-    <div class="row">
-        <div class="card" style="width: 40rem;">
-
-            <div class="card-body">
-              <div class="row animate_animated animate_fadeIn animate_faster" *ngIf="movie">
-
-                <div class="col-md-6">
-
-                    <img  width= "450" height = "300" [src]="movie.backdrop_path| poster">
-                </div>
-            </div>
-                <h5 class="card-title">{{movie?.title}}</h5>
-                <p class="card-text">{{movie?.overview}}</p>
-                <p class="card-text">{{movie?.tagline}}</p>
-
-
-            </div>
-
-
-        </div>
-    </div>
+<!-- Loading -->
+<div class="loading-state" *ngIf="!movie">
+  <div class="spinner"></div>
+  <p>Cargando...</p>
 </div>
-<br>
-<h1>Videos relacionados:</h1>
 
-<carousel>
-  <slide *ngFor="let video of videosRelacionados">
-    <p>{{ video.name }}</p>
-    <div class="youtube-thumbnail" (click)="abrirVideo(video.key)">
-      <img [src]="generateYoutubeThumbnailUrl(video.key)" alt="Miniatura de video de YouTube" />
-      <span class="play-icon"></span>
+<!-- Hero con backdrop -->
+<div class="movie-hero" *ngIf="movie">
+  <div class="hero-backdrop"
+       [style.backgroundImage]="getBackdropUrl() ? 'url(' + getBackdropUrl() + ')' : 'none'">
+  </div>
+  <div class="hero-gradient"></div>
+
+  <div class="hero-content animate__animated animate__fadeIn">
+    <div class="hero-layout">
+
+      <img [src]="movie.poster_path | poster"
+           [alt]="movie.title"
+           class="hero-poster">
+
+      <div class="hero-info">
+        <h1 class="hero-title">{{ movie.title }}</h1>
+
+        <p class="hero-tagline" *ngIf="movie.tagline">"{{ movie.tagline }}"</p>
+
+        <div class="genre-list" *ngIf="movie && movie.genres.length > 0">
+          <span class="genre-badge" *ngFor="let genre of movie.genres">{{ genre.name }}</span>
+        </div>
+
+        <div class="meta-row">
+          <span class="meta-chip" *ngIf="movie.runtime">
+            &#9201; {{ getRuntime() }}
+          </span>
+          <span class="meta-chip" *ngIf="movie.release_date">
+            &#128197; {{ movie.release_date | date:'yyyy' }}
+          </span>
+          <span class="meta-chip rating-chip">
+            &#9733; {{ movie.vote_average | number:'1.1-1' }}/10
+          </span>
+          <span class="meta-chip muted-chip" *ngIf="movie.vote_count">
+            {{ movie.vote_count | number }} votos
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Cuerpo del detalle -->
+<div class="movie-body" *ngIf="movie">
+  <div class="body-inner">
+
+    <div class="body-columns">
+
+      <!-- Columna principal -->
+      <div class="main-col">
+
+        <!-- Sinopsis -->
+        <section class="detail-section">
+          <h2 class="section-title">Sinopsis</h2>
+          <p class="overview-text">{{ movie.overview || 'Sin descripción disponible.' }}</p>
+        </section>
+
+        <!-- Reparto -->
+        <section class="detail-section" *ngIf="cast.length > 0">
+          <h2 class="section-title">Reparto</h2>
+          <app-cast-slideshow [cast]="cast"></app-cast-slideshow>
+        </section>
+
+        <!-- Videos -->
+        <section class="detail-section" *ngIf="videosRelacionados.length > 0">
+          <h2 class="section-title">Videos</h2>
+          <div class="videos-scroll">
+            <div class="video-card"
+                 *ngFor="let video of videosRelacionados | slice:0:8"
+                 (click)="abrirVideo(video.key)">
+              <div class="video-thumb">
+                <img [src]="generateYoutubeThumbnailUrl(video.key)" [alt]="video.name">
+                <div class="video-play-btn">&#9654;</div>
+              </div>
+              <p class="video-name">{{ video.name }}</p>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Sidebar de detalles -->
+      <aside class="sidebar-col">
+        <div class="info-card">
+          <h2 class="section-title">Detalles</h2>
+
+          <div class="info-row" *ngIf="movie.status">
+            <span class="info-label">Estado</span>
+            <span class="info-value">{{ movie.status }}</span>
+          </div>
+
+          <div class="info-row" *ngIf="movie.original_language">
+            <span class="info-label">Idioma original</span>
+            <span class="info-value lang-badge">{{ movie.original_language | uppercase }}</span>
+          </div>
+
+          <div class="info-row" *ngIf="movie.original_title !== movie.title">
+            <span class="info-label">Título original</span>
+            <span class="info-value">{{ movie.original_title }}</span>
+          </div>
+
+          <div class="info-row" *ngIf="movie.budget > 0">
+            <span class="info-label">Presupuesto</span>
+            <span class="info-value">{{ movie.budget | currency:'USD':'symbol':'1.0-0' }}</span>
+          </div>
+
+          <div class="info-row" *ngIf="movie.revenue > 0">
+            <span class="info-label">Recaudación</span>
+            <span class="info-value"
+                  [class.profit]="movie.revenue > movie.budget"
+                  [class.loss]="movie.revenue < movie.budget && movie.budget > 0">
+              {{ movie.revenue | currency:'USD':'symbol':'1.0-0' }}
+            </span>
+          </div>
+
+          <div class="info-row" *ngIf="movie && movie.production_companies.length > 0">
+            <span class="info-label">Productora</span>
+            <span class="info-value">{{ movie.production_companies[0].name }}</span>
+          </div>
+
+          <div class="info-row" *ngIf="movie && movie.production_countries.length > 0">
+            <span class="info-label">País</span>
+            <span class="info-value">{{ movie.production_countries[0].name }}</span>
+          </div>
+        </div>
+
+        <!-- Galería de imágenes -->
+        <div class="gallery-block" *ngIf="posters.length > 0">
+          <h2 class="section-title">Imágenes</h2>
+          <div class="gallery-grid">
+            <img *ngFor="let p of posters | slice:0:6"
+                 [src]="generateImageUrl(p.file_path)"
+                 [alt]="movie.title"
+                 class="gallery-img">
+          </div>
+        </div>
+      </aside>
+
     </div>
 
-  </slide>
-</carousel>
+    <!-- Películas similares (ancho completo) -->
+    <section class="detail-section similares-section" *ngIf="movies.length > 0">
+      <h2 class="section-title">Películas similares</h2>
+      <app-peliculas-poster-grid [movies]="movies"></app-peliculas-poster-grid>
+    </section>
 
-<h1>Imágenes relacionadas:</h1>
-
-<carousel>
-    <slide *ngFor="let poster of posters">
-      <img [src]="generateImageUrl(poster.file_path)" alt="Backdrop" />
-       </slide>
-</carousel>
-
-<h1>Peliculas similares:</h1>
-
-
-<app-peliculas-poster-grid *ngIf="movies.length > 0" [movies]="movies">
-</app-peliculas-poster-grid>
+  </div>
+</div>

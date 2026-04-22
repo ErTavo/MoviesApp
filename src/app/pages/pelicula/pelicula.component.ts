@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Movie } from 'src/app/interfaces/cartelera-response';
-import { PeliculasService } from 'src/app/services/peliculas.service.service';
 import { ActivatedRoute } from '@angular/router';
+import { Movie } from 'src/app/interfaces/cartelera-response';
+import { Cast } from 'src/app/interfaces/credits-response';
 import { MovieResponse } from 'src/app/interfaces/movie-response';
-import { NguCarouselConfig } from '@ngu/carousel';
-
+import { PeliculasService } from 'src/app/services/peliculas.service.service';
 
 @Component({
   selector: 'app-pelicula',
@@ -16,62 +15,68 @@ export class PeliculaComponent implements OnInit {
   public movies: Movie[] = [];
   public videosRelacionados: any[] = [];
   public posters: any[] = [];
+  public cast: Cast[] = [];
 
-  carouselConfig: NguCarouselConfig = {
-    grid: { xs: 1, sm: 2, md: 3, lg: 4, all: 0 },
-    slide: 1,
-    speed: 400,
-    interval: {
-      timing: 3000,
-      initialDelay: 1000
-    },
-    point: {
-      visible: true
-    },
-    load: 2,
-    touch: true,
-    loop: true
-  };
-
-  constructor(private ActivatedRoute: ActivatedRoute,
-    private peliculasService: PeliculasService) { }
-
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private peliculasService: PeliculasService
+  ) { }
 
   ngOnInit(): void {
-    this.ActivatedRoute.params.subscribe((params: any) => {
-      const {id} = params;
-      this.peliculasService.getPeliculaDetalle(id).subscribe((data:any) => {
+    this.activatedRoute.params.subscribe((params: any) => {
+      const { id } = params;
+
+      this.movie = undefined;
+      this.movies = [];
+      this.videosRelacionados = [];
+      this.posters = [];
+      this.cast = [];
+
+      this.peliculasService.getPeliculaDetalle(id).subscribe((data: any) => {
         this.movie = data;
-      })
+      });
 
       this.peliculasService.getVideosRelacionado(id).subscribe((data: any) => {
-        this.videosRelacionados = data.results;
+        this.videosRelacionados = data?.results ?? [];
       });
 
-
-      this.peliculasService.getSimilar(id).subscribe((data:any) => {
-        this.movies = data.results;
+      this.peliculasService.getSimilar(id).subscribe((data: any) => {
+        this.movies = data?.results ?? [];
       });
 
-      this.peliculasService.getImagenes(id).subscribe((data:any) => {
-        console.log(data)
-        this.posters = data.posters;
+      this.peliculasService.getImagenes(id).subscribe((data: any) => {
+        this.posters = data?.posters ?? [];
       });
 
-
-    })
+      this.peliculasService.getCast(id).subscribe((castData: Cast[]) => {
+        this.cast = castData;
+      });
+    });
   }
 
   abrirVideo(videoKey: string) {
-    const youtubeUrl = `https://www.youtube.com/watch?v=${videoKey}`;
-    window.open(youtubeUrl, '_blank');
+    window.open(`https://www.youtube.com/watch?v=${videoKey}`, '_blank');
   }
-  generateYoutubeThumbnailUrl(videoKey: string) {
+
+  generateYoutubeThumbnailUrl(videoKey: string): string {
     return `https://img.youtube.com/vi/${videoKey}/mqdefault.jpg`;
   }
+
   generateImageUrl(imagePath: string): string {
-    return `https://api.themoviedb.org/3/${imagePath}`;
+    return `https://image.tmdb.org/t/p/w342${imagePath}`;
   }
 
-}
+  getBackdropUrl(): string {
+    if (this.movie?.backdrop_path) {
+      return `https://image.tmdb.org/t/p/w1280${this.movie.backdrop_path}`;
+    }
+    return '';
+  }
 
+  getRuntime(): string {
+    if (!this.movie?.runtime) return '';
+    const h = Math.floor(this.movie.runtime / 60);
+    const m = this.movie.runtime % 60;
+    return h > 0 ? `${h}h ${m}m` : `${m}m`;
+  }
+}

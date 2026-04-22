@@ -1,0 +1,36 @@
+.buscar-page {
+  padding: 0 2rem 3rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.buscar-header {
+  padding: 2.5rem 0 1.5rem;
+}
+
+.buscar-title {
+  font-size: 2rem;
+  font-family: "Roboto Slab", serif;
+  color: #f0f0f0;
+  margin-bottom: 0.4rem;
+}
+
+.buscar-subtitle {
+  color: #8a9bb5;
+  font-size: 0.95rem;
+  font-family: "Raleway", sans-serif;
+}
+
+.buscar-vacio {
+  color: #8a9bb5;
+  font-size: 1.1rem;
+  margin-top: 3rem;
+  text-align: center;
+  font-family: "Raleway", sans-serif;
+}
+
+@media (max-width: 600px) {
+  .buscar-page {
+    padding: 0 1rem 2rem;
+  }
+}

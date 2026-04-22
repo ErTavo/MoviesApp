@@ -1,5 +1,9 @@
-<div class="app">
-    <h1>RESULTADO DE LA BUSQUEDA</h1>
-    <app-peliculas-poster-grid *ngIf="movie.length > 0" [movies]="movie">
-    </app-peliculas-poster-grid>
+<div class="buscar-page">
+  <div class="buscar-header">
+    <h1 class="buscar-title">Resultados de búsqueda</h1>
+    <p class="buscar-subtitle" *ngIf="movie.length > 0">{{ movie.length }} películas encontradas</p>
+    <p class="buscar-vacio" *ngIf="movie.length === 0">No se encontraron resultados. Intenta con otro título.</p>
+  </div>
+  <app-peliculas-poster-grid *ngIf="movie.length > 0" [movies]="movie">
+  </app-peliculas-poster-grid>
 </div>

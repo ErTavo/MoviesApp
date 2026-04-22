@@ -1,19 +1,19 @@
-<nav class="navbar navbar-expand-sm">
-    <div class="container-fluid">
-        <a class="navbar-brand" routerLink="/home">Peliculas</a>
-        <div class="navbar-collapse collapse" id="navBarSupportContent">
-            <ul class="navbar-nav mr-auto mb-2 mb-lg-0"></ul>
-            <div class="d-flex">
-                <input #txtBuscar 
-                    (keyup.enter)="buscarPelicula(txtBuscar.value)"
-                    class="form-control mr-2"
-                    type="search"
-                    placeholder="Buscar Pelicula"
-                    aria-label="Search">
-
-                <button (click)="buscarPelicula(txtBuscar.value)"
-                class="btn btn-outline-success " type="submit">Buscar</button>
-            </div>
-        </div>
+<nav class="app-navbar">
+  <div class="navbar-inner">
+    <a class="navbar-logo" routerLink="/home">
+      <span class="logo-icon">&#127909;</span>
+      <span class="logo-text">CineApp</span>
+    </a>
+    <div class="navbar-search">
+      <input #txtBuscar
+        (keyup.enter)="buscarPelicula(txtBuscar.value)"
+        type="search"
+        placeholder="Buscar película..."
+        class="nav-search-input"
+        aria-label="Buscar">
+      <button (click)="buscarPelicula(txtBuscar.value)" class="nav-search-btn" aria-label="Buscar">
+        <img src="../../../assets/search.svg" alt="buscar">
+      </button>
     </div>
+  </div>
 </nav>

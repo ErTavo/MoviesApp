@@ -1,23 +1,23 @@
-<!DOCTYPE html>
-<html>
-<div class="app">
-    <h1>Cartelera</h1>
+<div class="home-page">
 
-
-    <div class="search">
-        <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
-
-            <input type="text" placeholder="Buscar Película" formControlName="buscar" /> <button style="border:1px solid rgb(51, 1, 1); background-color: transparent;"><img src="../../../assets/search.svg" alt="search"></button>
-
-
-            <br>
-            <div class="col-5">
-
-            </div>
-
-
-        </form>
+  <div class="home-hero">
+    <h1 class="home-title">En Cartelera</h1>
+    <p class="home-subtitle">Las películas más recientes en cines</p>
+    <div class="search-wrapper">
+      <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
+        <div class="search-bar">
+          <input type="text" placeholder="Buscar película por título..." formControlName="buscar" />
+          <button type="submit">
+            <img src="../../../assets/search.svg" alt="buscar">
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
 
+  <div class="home-grid">
     <app-peliculas-poster-grid *ngIf="movies.length > 0" [movies]="movies">
     </app-peliculas-poster-grid>
+  </div>
+
+</div>
